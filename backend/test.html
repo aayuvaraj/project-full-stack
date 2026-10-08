@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inventory API Test</title>
+</head>
+<body>
+
+  <h2>Add Product</h2>
+
+  <input id="name" placeholder="Product Name">
+  <input id="category" placeholder="Category">
+  <input id="quantity" type="number" placeholder="Quantity">
+  <input id="price" type="number" placeholder="Price">
+  <input id="supplier" placeholder="Supplier">
+
+  <button onclick="addProduct()">Add Product</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function addProduct() {
+      const product = {
+        name: document.getElementById("name").value,
+        category: document.getElementById("category").value,
+        quantity: Number(document.getElementById("quantity").value),
+        price: Number(document.getElementById("price").value),
+        supplier: document.getElementById("supplier").value
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/products",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(product)
+          }
+        );
+
+        const data = await response.json();
+
+        document.getElementById("result").innerText =
+          JSON.stringify(data, null, 2);
+
+      } catch (error) {
+        document.getElementById("result").innerText =
+          error.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
